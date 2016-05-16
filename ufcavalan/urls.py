@@ -20,4 +20,3 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^tasabido/', include('tasabido.urls')),
 ]
-

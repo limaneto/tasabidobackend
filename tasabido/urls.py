@@ -1,8 +1,10 @@
 from django.conf.urls import url
-from django.conf.urls import include
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework import routers
+from tasabido import views
 
-from . import views
+# router = routers.DefaultRouter()
+# router.register(r'criar_usuario', views.UsuarioViewSet)
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
