@@ -1,0 +1,9 @@
+{% if usuarios_lista %}
+    <ul>
+    {% for Usuario in usuarios_lista %}
+        <li><a href="/tasabido/{{ usuario.nome_usuario }}/">{{ usuario.nome_usuario }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Sem usuarios.</p>
+{% endif %}

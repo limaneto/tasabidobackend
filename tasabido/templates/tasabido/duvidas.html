@@ -1,0 +1,9 @@
+{% if duvidas %}
+<ul>
+	{% for s in duvidas %}
+	<li>
+		<a href=="/duvida/{{ duvida.id }}/">{{s.titulo_duvida}}</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,9 @@
+{% if usuarios %}
+<ul>
+	{% for s in usuarios %}
+	<li>
+		<a href=="/usuarios/{{ usuario.id }}/">{{s.nome_usuario}}</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endif %}

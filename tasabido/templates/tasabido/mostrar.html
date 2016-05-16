@@ -1,0 +1,9 @@
+{% if lista_de_produtos %}
+<ul>
+	{% for supermercado_produto in lista_de_produtos %}
+	<li>
+		<a href=="{ % url 'mostrar_produtos' supermercado_produto.id_supermercado}">{{supermercado_produto.id_supermercado}}</a>
+	</li>
+	{% endfor %}
+</ul>
+{% endif %}
