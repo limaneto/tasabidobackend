@@ -8,8 +8,8 @@ from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from tasabido.serializers import UsuarioSerializer
-from .models import Usuario, Duvida, Ajuda
+from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, AjudaSerializer, MateriaSerializer
+from .models import Usuario, Duvida, Ajuda, Materia
 
 
 # Create your views here.
@@ -18,57 +18,62 @@ def index(requests):
 
 
 @csrf_exempt
-def criar_usuario(request):
+def cadastrar_usuario(request):
     nome = request.POST['nome_usuario']
     curso = request.POST['curso']
     senha = request.POST['senha']
-    # curso = Usuario(**request.POST)
     usuario = Usuario(nome_usuario=nome, curso=curso, senha=senha)
     usuario.save()
-    return HttpResponse("Bem vindo maxo!")
+    return HttpResponse("Usuario cadastrado.")
 
+@csrf_exempt
+def cadastrar_duvida(request):
+    titulo = request.POST['titulo']
+    descricao = request.POST['descricao']
+    tema = request.POST['tema']
+    usuario = Duvida(titulo=titulo, descricao=descricao, tema=tema)
+    usuario.save()
+    return HttpResponse("Duvida cadastrada.")
 
+@csrf_exempt
+def cadastrar_ajuda(request):
+    titulo = request.POST['titulo']
+    descricao = request.POST['descricao']
+    tema = request.POST['tema']
+    ajuda = Ajuda(titulo=titulo, descricao=descricao, tema=tema)
+    ajuda.save()
+    return HttpResponse("Ajuda cadastrada.")
 
-def usuarios(request):
-    usuarios = UsuarioSerializer(Usuario.objects.all(), many=True).data
-    # usuarios = Usuario.objects.all()
-    # return render(request, 'tasabido/detail.html', {'usuarios': usuarios})
-    return Response({
-        'usuarios': usuarios,
-    })
+@csrf_exempt
+def cadastrar_ajuda(request):
+    titulo = request.POST['titulo']
+    descricao = request.POST['descricao']
+    tema = request.POST['tema']
+    ajuda = Ajuda(titulo=titulo, descricao=descricao, tema=tema)
+    ajuda.save()
+    return HttpResponse("Ajuda cadastrada.")
 
 
 @csrf_exempt
-def criar_duvida(request):
-    nome = request.POST['nome_usuario']
-    curso = request.POST['curso']
-    senha = request.POST['senha']
-    # curso = Usuario(**request.POST)
-    usuario = Usuario(nome_usuario=nome, curso=curso, senha=senha)
-    usuario.save()
-    return HttpResponse("Bem vindo maxo!")
-
-def duvidas(request):
-    duvidas = Duvida.objects.all()
-    return render(request, 'tasabido/duvidas.html', {'duvidas': duvidas})
+def cadastrar_materia(request):
+    nome = request.POST['nome']
+    materia = Materia(nome=nome)
+    materia.save()
+    return HttpResponse("Materia cadastrada.")
 
 
-class UsuarioList(generics.ListCreateAPIView):
+class UsuariosList(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
 
+class DuvidasList(generics.ListCreateAPIView):
+    queryset = Duvida.objects.all()
+    serializer_class = DuvidaSerializer
 
-class UsuarioDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Usuario.objects.all()
-    serializer_class = UsuarioSerializer
+class AjudasList(generics.ListCreateAPIView):
+    queryset = Ajuda.objects.all()
+    serializer_class = AjudaSerializer
 
-
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
+class MateriasList(generics.ListCreateAPIView):
+    queryset = Materia.objects.all()
+    serializer_class = MateriaSerializer

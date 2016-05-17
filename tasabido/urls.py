@@ -8,11 +8,17 @@ from tasabido import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^usuarios/$', views.usuarios, name='usuarios'),
-    url(r'^duvidas/$', views.duvidas, name='duvidas'),
-    url(r'^usuarios_lista/$', views.UsuarioList.as_view()),
-    url(r'^usuario_detalhe/(?P<pk>[0-9]+)/$', views.UsuarioDetail.as_view()),
-    url(r'^criar_usuario/$', views.criar_usuario),
+    # url(r'^usuarios/$', views.usuarios, name='usuarios'),
+    # url(r'^duvidas/$', views.duvidas, name='duvidas'),
+    url(r'^lista_usuarios/$', views.UsuariosList.as_view()),
+    url(r'^lista_duvidas/$', views.DuvidasList.as_view()),
+    url(r'^lista_ajudas/$', views.AjudasList.as_view()),
+    url(r'^lista_materias/$', views.MateriasList.as_view()),
+    url(r'^cadastrar_usuario/$', views.cadastrar_usuario),
+    url(r'^cadastrar_duvida/$', views.cadastrar_duvida),
+    url(r'^cadastrar_ajuda/$', views.cadastrar_ajuda),
+    url(r'^cadastrar_materia/$', views.cadastrar_materia),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

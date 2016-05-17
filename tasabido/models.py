@@ -10,20 +10,21 @@ class Usuario(models.Model):
 
     def __unicode__(self):
     	return self.nome_usuario
-    
 
-class Duvida(models.Model):
+class Commom(models.Model):
     titulo = models.CharField(max_length=100)
     descricao = models.CharField(max_length=100)
     tema = models.CharField(max_length=100)
+
+    class Meta:
+        abstract = True
+
+class Duvida(Commom):
 
     def __unicode__(self):
     	return self.titulo
 
-class Ajuda(models.Model):
-    titulo = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=100)
-    tema = models.CharField(max_length=100)
+class Ajuda(Commom):
 
     def __unicode__(self):
     	return self.titulo
