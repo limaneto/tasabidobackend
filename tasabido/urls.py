@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^cadastrar_duvida/', views.cadastrar_duvida),
     url(r'^cadastrar_ajuda/', views.cadastrar_ajuda),
     url(r'^cadastrar_materia/', views.cadastrar_materia),
-    url(r'^buscar_duvidas_por_id_usuario/([0-9]+)/$', views.buscar_duvidas_por_id_usuario),
+    # url(r'^buscar_duvidas_por_id_usuario/([0-9]+)/$', views.buscar_duvidas_por_id_usuario),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
