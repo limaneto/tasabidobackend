@@ -1,16 +1,10 @@
-from django.http import Http404
-from django.forms import ModelForm
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import viewsets
 from rest_framework import generics
-from rest_framework.decorators import api_view
-from rest_framework.renderers import JSONRenderer
+from django.core import serializers
 from rest_framework.response import Response
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, AjudaSerializer, MateriaSerializer
 from .models import Usuario, Duvida, Ajuda, Materia
-
 
 # Create your views here.
 def index(requests):
@@ -30,26 +24,22 @@ def cadastrar_usuario(request):
 def cadastrar_duvida(request):
     titulo = request.POST['titulo']
     descricao = request.POST['descricao']
-    tema = request.POST['tema']
-    usuario = Duvida(titulo=titulo, descricao=descricao, tema=tema)
-    usuario.save()
+    id_usuario = request.POST['id']
+    user = Usuario.objects.get(pk=id_usuario)
+    duvida = Duvida(titulo=titulo, descricao=descricao)
+    duvida.usuario = user
+    duvida.save()
     return HttpResponse("Duvida cadastrada.")
 
-@csrf_exempt
-def cadastrar_ajuda(request):
-    titulo = request.POST['titulo']
-    descricao = request.POST['descricao']
-    tema = request.POST['tema']
-    ajuda = Ajuda(titulo=titulo, descricao=descricao, tema=tema)
-    ajuda.save()
-    return HttpResponse("Ajuda cadastrada.")
 
 @csrf_exempt
 def cadastrar_ajuda(request):
     titulo = request.POST['titulo']
     descricao = request.POST['descricao']
-    tema = request.POST['tema']
-    ajuda = Ajuda(titulo=titulo, descricao=descricao, tema=tema)
+    id_usuario = request.POST['id']
+    user = Usuario.objects.filter(pk=id_usuario)
+    ajuda = Ajuda(titulo=titulo, descricao=descricao)
+    ajuda.usuario = user
     ajuda.save()
     return HttpResponse("Ajuda cadastrada.")
 
@@ -65,6 +55,24 @@ def cadastrar_materia(request):
 class UsuariosList(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+# @csrf_exempt
+# def buscar_duvidas_por_id_usuario(request):
+#     id_usuario = request.GET('id_usuario')
+#     lista_duvidas = Duvida.objects.get(pk=id_usuario)
+#     # lista_duvidas = DuvidaSerializer(Duvida.objects.get(pk=id_usuario)).data
+#     # serializer_class = DuvidaSerializer
+#     data = serializers.serialize('json', lista_duvidas)
+#     return HttpResponse(data, content_type='application/json')
+
+
+# usuarios = UsuarioSerializer(Usuario.objects.all(), many=True).data
+# 	# usuarios = Usuario.objects.all()
+# 	# return render(request, 'tasabido/detail.html', {'usuarios': usuarios})
+# 	return Response({
+#         'usuarios': usuarios,
+#     })
+
 
 class DuvidasList(generics.ListCreateAPIView):
     queryset = Duvida.objects.all()
