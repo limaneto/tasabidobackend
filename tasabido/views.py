@@ -38,6 +38,16 @@ def usuarios(request):
     })
 
 
+@csrf_exempt
+def criar_duvida(request):
+    nome = request.POST['nome_usuario']
+    curso = request.POST['curso']
+    senha = request.POST['senha']
+    # curso = Usuario(**request.POST)
+    usuario = Usuario(nome_usuario=nome, curso=curso, senha=senha)
+    usuario.save()
+    return HttpResponse("Bem vindo maxo!")
+
 def duvidas(request):
     duvidas = Duvida.objects.all()
     return render(request, 'tasabido/duvidas.html', {'duvidas': duvidas})
