@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from tasabido.models import Usuario, Duvida, Ajuda, Subtopico
+from tasabido.models import Usuario, Duvida, Ajuda, Subtopico, Materia
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,7 +21,7 @@ class AjudaSerializer(serializers.ModelSerializer):
 
 class MateriaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Ajuda
+        model = Materia
         fields = '__all__'
 
 class SubtopicoSerializer(serializers.ModelSerializer):

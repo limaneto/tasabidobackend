@@ -1,8 +1,6 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
-from django.core import serializers
-from rest_framework.response import Response
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, AjudaSerializer, MateriaSerializer
 from .models import Usuario, Duvida, Ajuda, Materia, Subtopico
 
