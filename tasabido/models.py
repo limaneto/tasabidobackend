@@ -6,7 +6,7 @@ from django.db import models
 
 class Usuario(models.Model):
     nome_usuario = models.CharField(max_length=100)
-    curso = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
     senha = models.CharField(max_length=100)
 
     def __unicode__(self):
@@ -37,6 +37,13 @@ class Materia(models.Model):
 
     def __unicode__(self):
         return self.nome
+
+class Subtopico(models.Model):
+    nome_subtopico = models.CharField(max_length=100)
+    materia = models.ForeignKey('Materia', on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return self.nome_subtopico
 
 
 # materia = models.ForeignKey('Materia', on_delete=models.CASCADE)

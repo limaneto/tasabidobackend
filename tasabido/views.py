@@ -4,7 +4,7 @@ from rest_framework import generics
 from django.core import serializers
 from rest_framework.response import Response
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, AjudaSerializer, MateriaSerializer
-from .models import Usuario, Duvida, Ajuda, Materia
+from .models import Usuario, Duvida, Ajuda, Materia, Subtopico
 
 # Create your views here.
 def index(requests):
@@ -14,9 +14,9 @@ def index(requests):
 @csrf_exempt
 def cadastrar_usuario(request):
     nome = request.POST['nome_usuario']
-    curso = request.POST['curso']
+    email = request.POST['email']
     senha = request.POST['senha']
-    usuario = Usuario(nome_usuario=nome, curso=curso, senha=senha)
+    usuario = Usuario(nome_usuario=nome, email=email, senha=senha)
     usuario.save()
     return HttpResponse("Usuario cadastrado.")
 
@@ -31,7 +31,6 @@ def cadastrar_duvida(request):
     duvida.save()
     return HttpResponse("Duvida cadastrada.")
 
-
 @csrf_exempt
 def cadastrar_ajuda(request):
     titulo = request.POST['titulo']
@@ -43,7 +42,6 @@ def cadastrar_ajuda(request):
     ajuda.save()
     return HttpResponse("Ajuda cadastrada.")
 
-
 @csrf_exempt
 def cadastrar_materia(request):
     nome = request.POST['nome']
@@ -51,10 +49,39 @@ def cadastrar_materia(request):
     materia.save()
     return HttpResponse("Materia cadastrada.")
 
+@csrf_exempt
+def cadastrar_subtopico(request):
+    nome = request.POST['nome']
+    id_materia = request.POST['id']
+    materia = Materia.objects.filter(pk=id_materia)
+    subtopico = Subtopico(nome=nome)
+    subtopico.materia = materia
+    subtopico.save()
+    return HttpResponse("Materia cadastrada.")
+
+
 
 class UsuariosList(generics.ListCreateAPIView):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
+
+class DuvidasList(generics.ListCreateAPIView):
+    queryset = Duvida.objects.all()
+    serializer_class = DuvidaSerializer
+
+class AjudasList(generics.ListCreateAPIView):
+    queryset = Ajuda.objects.all()
+    serializer_class = AjudaSerializer
+
+class MateriasList(generics.ListCreateAPIView):
+    queryset = Materia.objects.all()
+    serializer_class = MateriaSerializer
+
+class SubtopicosList(generics.ListCreateAPIView):
+    queryset = Subtopico.objects.all()
+    serializer_class = MateriaSerializer
+
+
 
 # @csrf_exempt
 # def buscar_duvidas_por_id_usuario(request):
@@ -72,16 +99,3 @@ class UsuariosList(generics.ListCreateAPIView):
 # 	return Response({
 #         'usuarios': usuarios,
 #     })
-
-
-class DuvidasList(generics.ListCreateAPIView):
-    queryset = Duvida.objects.all()
-    serializer_class = DuvidaSerializer
-
-class AjudasList(generics.ListCreateAPIView):
-    queryset = Ajuda.objects.all()
-    serializer_class = AjudaSerializer
-
-class MateriasList(generics.ListCreateAPIView):
-    queryset = Materia.objects.all()
-    serializer_class = MateriaSerializer
