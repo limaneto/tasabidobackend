@@ -1,8 +1,11 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, AjudaSerializer, MateriaSerializer
-from .models import Usuario, Duvida, Ajuda, Materia, Subtopico
+from .models import Duvida, Ajuda, Materia, Subtopico
 
 # Create your views here.
 def index(requests):
@@ -11,10 +14,11 @@ def index(requests):
 
 @csrf_exempt
 def cadastrar_usuario(request):
-    nome = request.POST.get('nome_usuario', False)
+    nome = request.POST.get('first_name', False)
+    login = request.POST.get('username', False)
     email = request.POST.get('email', False)
-    senha = request.POST.get('senha', False)
-    usuario = Usuario(nome_usuario=nome, email=email, senha=senha)
+    senha = request.POST.get('password', False)
+    usuario = User.objects.create_user(first_name=nome, username=login, email=email, password=senha)
     usuario.save()
     return HttpResponse("Usuario cadastrado.")
 
@@ -23,7 +27,7 @@ def cadastrar_duvida(request):
     titulo = request.POST.get('titulo', False)
     descricao = request.POST.get('descricao', False)
     id_usuario = request.POST['id']
-    user = Usuario.objects.get(pk=id_usuario)
+    user = User.objects.get(pk=id_usuario)
     duvida = Duvida(titulo=titulo, descricao=descricao)
     duvida.usuario = user
     duvida.save()
@@ -34,7 +38,7 @@ def cadastrar_ajuda(request):
     titulo = request.POST.get('titulo', False)
     descricao = request.POST.get('descricao', False)
     id_usuario = request.POST['id']
-    user = Usuario.objects.filter(pk=id_usuario)
+    user = User.objects.filter(pk=id_usuario)
     ajuda = Ajuda(titulo=titulo, descricao=descricao)
     ajuda.usuario = user
     ajuda.save()
@@ -57,10 +61,24 @@ def cadastrar_subtopico(request):
     subtopico.save()
     return HttpResponse("Materia cadastrada.")
 
+def autenticar_usuario(request):
+    login = request.POST.get('username')
+    senha = request.POST.get('password')
+    user = authenticate(username=login, password=senha)
+
+    if user is not None:
+        # the password verified for the user
+        if user.is_active:
+            return HttpResponse("User is valid, active and authenticated")
+        else:
+            return HttpResponse("The password is valid, but the account has been disabled!")
+    else:
+        # the authentication system was unable to verify the username and password
+        return HttpResponse("The username and password were incorrect.")
 
 
 class UsuariosList(generics.ListCreateAPIView):
-    queryset = Usuario.objects.all()
+    queryset = User.objects.all()
     serializer_class = UsuarioSerializer
 
 class DuvidasList(generics.ListCreateAPIView):

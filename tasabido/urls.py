@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^cadastrar_ajuda/', views.cadastrar_ajuda),
     url(r'^cadastrar_materia/', views.cadastrar_materia),
     url(r'^cadastrar_subtopico/', views.cadastrar_subtopico),
+    url(r'^autenticar_usuario/', views.autenticar_usuario),
 
     # url(r'^buscar_duvidas_por_id_usuario/([0-9]+)/$', views.buscar_duvidas_por_id_usuario),
 ]
