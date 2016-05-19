@@ -11,17 +11,17 @@ def index(requests):
 
 @csrf_exempt
 def cadastrar_usuario(request):
-    nome = request.POST['nome_usuario']
-    email = request.POST['email']
-    senha = request.POST['senha']
+    nome = request.POST['nome_usuario', False]
+    email = request.POST['email', False]
+    senha = request.POST['senha', False]
     usuario = Usuario(nome_usuario=nome, email=email, senha=senha)
     usuario.save()
     return HttpResponse("Usuario cadastrado.")
 
 @csrf_exempt
 def cadastrar_duvida(request):
-    titulo = request.POST['titulo']
-    descricao = request.POST['descricao']
+    titulo = request.POST['titulo', False]
+    descricao = request.POST['descricao', False]
     id_usuario = request.POST['id']
     user = Usuario.objects.get(pk=id_usuario)
     duvida = Duvida(titulo=titulo, descricao=descricao)
@@ -31,8 +31,8 @@ def cadastrar_duvida(request):
 
 @csrf_exempt
 def cadastrar_ajuda(request):
-    titulo = request.POST['titulo']
-    descricao = request.POST['descricao']
+    titulo = request.POST['titulo', False]
+    descricao = request.POST['descricao', False]
     id_usuario = request.POST['id']
     user = Usuario.objects.filter(pk=id_usuario)
     ajuda = Ajuda(titulo=titulo, descricao=descricao)
@@ -42,7 +42,7 @@ def cadastrar_ajuda(request):
 
 @csrf_exempt
 def cadastrar_materia(request):
-    nome = request.POST['nome']
+    nome = request.POST['nome', False]
     materia = Materia(nome=nome)
     materia.save()
     return HttpResponse("Materia cadastrada.")
