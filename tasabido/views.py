@@ -19,7 +19,7 @@ def cadastrar_usuario(request):
     senha = request.POST.get('password', False)
     usuario = User.objects.create_user(first_name=nome, username=login, email=email, password=senha)
     usuario.save()
-    return HttpResponse("Usuario cadastrado.")
+    return HttpResponse("0")
 
 @csrf_exempt
 def cadastrar_duvida(request):
