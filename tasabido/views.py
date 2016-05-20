@@ -2,7 +2,6 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, AjudaSerializer, MateriaSerializer
 from .models import Duvida, Ajuda, Materia, Subtopico
@@ -61,6 +60,7 @@ def cadastrar_subtopico(request):
     subtopico.save()
     return HttpResponse("Materia cadastrada.")
 
+@csrf_exempt
 def autenticar_usuario(request):
     login = request.POST.get('username')
     senha = request.POST.get('password')
@@ -69,13 +69,11 @@ def autenticar_usuario(request):
     if user is not None:
         # the password verified for the user
         if user.is_active:
-            return HttpResponse("User is valid, active and authenticated")
+            return HttpResponse("0")
         else:
-            return HttpResponse("The password is valid, but the account has been disabled!")
+            return HttpResponse("1")
     else:
-        # the authentication system was unable to verify the username and password
-        return HttpResponse("The username and password were incorrect.")
-
+        return HttpResponse("2")
 
 class UsuariosList(generics.ListCreateAPIView):
     queryset = User.objects.all()

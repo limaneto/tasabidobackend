@@ -76,8 +76,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ufcavalan.wsgi.application'
 
-banco = env.bool('DEBUG', default=False)
-# banco = False
+# banco = env.bool('DEBUG', default=False)
+banco = False
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -91,6 +91,7 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+    
 REST_FRAMEWORK = {
     'PAGE_SIZE': 10
 }
