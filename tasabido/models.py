@@ -3,18 +3,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-
-# class Usuario(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     # nome_usuario = models.CharField(max_length=100)
-#     # login = models.CharField(max_length=100)
-#     # email = models.CharField(max_length=100)
-#     # senha = models.CharField(max_length=100)
-#
-#     def __unicode__(self):
-#         return self.nome_usuario
-
-
 class Commom(models.Model):
     titulo = models.CharField(max_length=100)
     descricao = models.CharField(max_length=100)
@@ -25,11 +13,17 @@ class Commom(models.Model):
 
 
 class Duvida(Commom):
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
+    subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
+
     def __unicode__(self):
         return self.titulo
 
 
 class Ajuda(Commom):
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
+    subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
+
     def __unicode__(self):
         return self.titulo
 

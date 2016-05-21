@@ -25,10 +25,16 @@ def cadastrar_usuario(request):
 def cadastrar_duvida(request):
     titulo = request.POST.get('titulo', False)
     descricao = request.POST.get('descricao', False)
-    id_usuario = request.POST['id']
+    id_usuario = request.POST['id_usuario']
+    id_materia = request.POST['id_materia']
+    id_subtopico = request.POST['id_subtopico']
     user = User.objects.get(pk=id_usuario)
+    materia = Materia.objects.get(pk=id_materia)
+    subtopico = Subtopico.objects.get(pk=id_subtopico)
     duvida = Duvida(titulo=titulo, descricao=descricao)
     duvida.usuario = user
+    duvida.materia = materia
+    duvida.subtopico = subtopico
     duvida.save()
     return HttpResponse("Duvida cadastrada.")
 
@@ -36,10 +42,16 @@ def cadastrar_duvida(request):
 def cadastrar_ajuda(request):
     titulo = request.POST.get('titulo', False)
     descricao = request.POST.get('descricao', False)
-    id_usuario = request.POST['id']
-    user = User.objects.filter(pk=id_usuario)
+    id_usuario = request.POST['id_usuario']
+    id_materia = request.POST['id_materia']
+    id_subtopico = request.POST['id_subtopico']
+    user = User.objects.get(pk=id_usuario)
+    materia = Materia.objects.get(pk=id_materia)
+    subtopico = Subtopico.objects.get(pk=id_subtopico)
     ajuda = Ajuda(titulo=titulo, descricao=descricao)
     ajuda.usuario = user
+    ajuda.materia = materia
+    ajuda.subtopico = subtopico
     ajuda.save()
     return HttpResponse("Ajuda cadastrada.")
 
