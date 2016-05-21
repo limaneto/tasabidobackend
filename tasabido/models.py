@@ -45,7 +45,7 @@ class Subtopico(models.Model):
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
 
     def __unicode__(self):
-        return self.nome_subtopico
+        return self.nome
 
 
 # materia = models.ForeignKey('Materia', on_delete=models.CASCADE)
