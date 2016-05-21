@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="766d8956-6727-4528-af04-1c60e1959277" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0002_auto_20160514_1127.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0003_user.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0004_delete_user.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0005_user.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0006_delete_user.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0007_user.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0008_auto_20160514_2154.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0009_remove_usuario_created.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0010_auto_20160517_1813.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0011_auto_20160517_1816.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0012_auto_20160517_1922.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0013_auto_20160518_1947.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0014_auto_20160519_2041.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tasabido/migrations/0015_auto_20160521_0148.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tasabido/models.py" afterPath="$PROJECT_DIR$/tasabido/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tasabido/serializers.py" afterPath="$PROJECT_DIR$/tasabido/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tasabido/views.py" afterPath="$PROJECT_DIR$/tasabido/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ufcavalan/settings.py" afterPath="$PROJECT_DIR$/ufcavalan/settings.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ufcavalan.iws" />
@@ -41,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasabido/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.84070796">
-              <caret line="107" column="38" selection-start-line="0" selection-start-column="0" selection-end-line="107" selection-end-column="38" />
+            <state vertical-scroll-proportion="-2.5925925">
+              <caret line="30" column="33" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
               </folding>
@@ -65,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tasabido/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.333334">
-              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6637168">
+              <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -80,8 +63,8 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ufcavalan/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-38.88889">
-              <caret line="74" column="1" selection-start-line="74" selection-start-column="1" selection-end-line="74" selection-end-column="1" />
+            <state vertical-scroll-proportion="-17.777779">
+              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
               <folding>
                 <element signature="e#382#391#0" expanded="true" />
               </folding>
@@ -125,12 +108,12 @@
         <option value="$PROJECT_DIR$/ufcavalan/wsgi.py" />
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/ufcavalan/settings.py" />
         <option value="$PROJECT_DIR$/tasabido/urls.py" />
         <option value="$PROJECT_DIR$/tasabido/admin.py" />
-        <option value="$PROJECT_DIR$/tasabido/models.py" />
         <option value="$PROJECT_DIR$/tasabido/serializers.py" />
         <option value="$PROJECT_DIR$/tasabido/views.py" />
+        <option value="$PROJECT_DIR$/ufcavalan/settings.py" />
+        <option value="$PROJECT_DIR$/tasabido/models.py" />
       </list>
     </option>
   </component>
@@ -402,14 +385,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3084577" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26849896" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23076923" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23076923" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32863188" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -796,16 +779,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ufcavalan/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-38.88889">
-          <caret line="74" column="1" selection-start-line="74" selection-start-column="1" selection-end-line="74" selection-end-column="1" />
-          <folding>
-            <element signature="e#382#391#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tasabido/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.4444447">
@@ -816,22 +789,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tasabido/models.py">
+    <entry file="file://$PROJECT_DIR$/tasabido/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.333334">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        <state vertical-scroll-proportion="-2.5925925">
+          <caret line="30" column="33" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
           <folding>
-            <element signature="e#0#28#0" expanded="true" />
+            <element signature="e#0#36#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tasabido/views.py">
+    <entry file="file://$PROJECT_DIR$/ufcavalan/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84070796">
-          <caret line="107" column="38" selection-start-line="0" selection-start-column="0" selection-end-line="107" selection-end-column="38" />
+        <state vertical-scroll-proportion="-17.777779">
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="e#382#391#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasabido/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6637168">
+          <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>
