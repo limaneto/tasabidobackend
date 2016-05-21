@@ -11,23 +11,6 @@ class Commom(models.Model):
     class Meta:
         abstract = True
 
-
-class Duvida(Commom):
-    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
-
-    def __unicode__(self):
-        return self.titulo
-
-
-class Ajuda(Commom):
-    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
-
-    def __unicode__(self):
-        return self.titulo
-
-
 class Materia(models.Model):
     nome = models.CharField(max_length=100)
 
@@ -42,4 +25,22 @@ class Subtopico(models.Model):
         return self.nome
 
 
-# materia = models.ForeignKey('Materia', on_delete=models.CASCADE)
+class Duvida(Commom):
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
+    subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return self.titulo
+
+class Ajuda(Commom):
+    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
+    subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
+
+    def __unicode__(self):
+        return self.titulo
+
+
+
+
+
+        # materia = models.ForeignKey('Materia', on_delete=models.CASCADE)

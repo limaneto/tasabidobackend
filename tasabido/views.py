@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, AjudaSerializer, MateriaSerializer
+from tasabido.serializers import UsuarioSerializer, AjudaSerializer, DuvidaSerializer, MateriaSerializer
 from .models import Duvida, Ajuda, Materia, Subtopico
 
 # Create your views here.
@@ -91,14 +91,6 @@ class UsuariosList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
 
-class DuvidasList(generics.ListCreateAPIView):
-    queryset = Duvida.objects.all()
-    serializer_class = DuvidaSerializer
-
-class AjudasList(generics.ListCreateAPIView):
-    queryset = Ajuda.objects.all()
-    serializer_class = AjudaSerializer
-
 class MateriasList(generics.ListCreateAPIView):
     queryset = Materia.objects.all()
     serializer_class = MateriaSerializer
@@ -107,21 +99,10 @@ class SubtopicosList(generics.ListCreateAPIView):
     queryset = Subtopico.objects.all()
     serializer_class = MateriaSerializer
 
+class DuvidasList(generics.ListCreateAPIView):
+    queryset = Duvida.objects.all()
+    serializer_class = DuvidaSerializer
 
-
-# @csrf_exempt
-# def buscar_duvidas_por_id_usuario(request):
-#     id_usuario = request.GET('id_usuario')
-#     lista_duvidas = Duvida.objects.get(pk=id_usuario)
-#     # lista_duvidas = DuvidaSerializer(Duvida.objects.get(pk=id_usuario)).data
-#     # serializer_class = DuvidaSerializer
-#     data = serializers.serialize('json', lista_duvidas)
-#     return HttpResponse(data, content_type='application/json')
-
-
-# usuarios = UsuarioSerializer(Usuario.objects.all(), many=True).data
-# 	# usuarios = Usuario.objects.all()
-# 	# return render(request, 'tasabido/detail.html', {'usuarios': usuarios})
-# 	return Response({
-#         'usuarios': usuarios,
-#     })
+class AjudasList(generics.ListCreateAPIView):
+    queryset = Ajuda.objects.all()
+    serializer_class = AjudaSerializer
