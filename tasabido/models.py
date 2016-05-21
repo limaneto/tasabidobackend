@@ -41,7 +41,7 @@ class Materia(models.Model):
         return self.nome
 
 class Subtopico(models.Model):
-    nome_subtopico = models.CharField(max_length=100)
+    nome = models.CharField(max_length=100)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
 
     def __unicode__(self):
