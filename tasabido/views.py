@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from tasabido.serializers import UsuarioSerializer, AjudaSerializer, DuvidaSerializer, MateriaSerializer
+from tasabido.serializers import UsuarioSerializer, AjudaSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer
 from .models import Duvida, Ajuda, Materia, Subtopico
 
 # Create your views here.
@@ -65,8 +65,8 @@ def cadastrar_materia(request):
 @csrf_exempt
 def cadastrar_subtopico(request):
     nome = request.POST.get('nome')
-    id_materia = request.POST['id']
-    materia = Materia.objects.filter(pk=id_materia)
+    id_materia = request.POST['id_materia']
+    materia = Materia.objects.get(pk=id_materia)
     subtopico = Subtopico(nome=nome)
     subtopico.materia = materia
     subtopico.save()
@@ -97,7 +97,7 @@ class MateriasList(generics.ListCreateAPIView):
 
 class SubtopicosList(generics.ListCreateAPIView):
     queryset = Subtopico.objects.all()
-    serializer_class = MateriaSerializer
+    serializer_class = SubtopicoSerializer
 
 class DuvidasList(generics.ListCreateAPIView):
     queryset = Duvida.objects.all()

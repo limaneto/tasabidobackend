@@ -38,9 +38,3 @@ class Ajuda(Commom):
 
     def __unicode__(self):
         return self.titulo
-
-
-
-
-
-        # materia = models.ForeignKey('Materia', on_delete=models.CASCADE)
