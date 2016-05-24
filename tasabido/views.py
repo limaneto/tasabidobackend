@@ -1,10 +1,10 @@
+import dateutil
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
-import dateutil.parser
 from django.http import JsonResponse
 from rest_framework.response import Response
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer, MonitoriaSerializer
@@ -52,7 +52,6 @@ def cadastrar_monitoria(request):
     titulo = request.POST.get('titulo', '')
     descricao = request.POST.get('descricao', '')
     data_monitoria = request.POST.get('data_monitoria', '')
-    hora = dateutil.parser.parse(request.POST.get('hora', ''))
     lat = request.POST.get('lat', '')
     long = request.POST.get('long', '')
     id_usuario = request.POST['id_usuario']
