@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^listar_usuarios/', views.UsuariosList.as_view()),
     url(r'^listar_duvidas/', views.DuvidasList.as_view()),
-    # url(r'^listar_materias/', views.MateriasList.as_view()),
+    url(r'^listar_materias/', views.MateriasList.as_view()),
     url(r'^listar_subtopicos/', views.SubtopicosList.as_view()),
     url(r'^listar_monitorias/', views.MonitoriasList.as_view()),
     url(r'^cadastrar_usuario/', views.cadastrar_usuario),
