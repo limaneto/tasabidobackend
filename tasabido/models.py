@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 
 class Commom(models.Model):
     titulo = models.CharField(max_length=100)
@@ -12,10 +11,11 @@ class Commom(models.Model):
         abstract = True
 
 class Materia(models.Model):
-    nome = models.CharField(max_length=100)
+    nome = models.CharField(max_length=100, unique=True)
 
     def __unicode__(self):
         return self.nome
+
 
 class Subtopico(models.Model):
     nome = models.CharField(max_length=100)
@@ -26,15 +26,22 @@ class Subtopico(models.Model):
 
 
 class Duvida(Commom):
+    data_criacao = models.DateField(auto_now=True)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
     subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
 
     def __unicode__(self):
         return self.titulo
 
-class Ajuda(Commom):
+
+class Monitoria(Commom):
+    data_monitoria = models.DateTimeField(auto_now=True)
+    hora = models.DateTimeField(null=True)
+    endereco = models.CharField(null=True, max_length=200)
+    lat = models.DecimalField(decimal_places=6, max_digits=9)
+    long = models.DecimalField(decimal_places=6, max_digits=9)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
     subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
 
     def __unicode__(self):
-        return self.titulo
+        return self.descricao

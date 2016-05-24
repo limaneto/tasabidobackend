@@ -3,8 +3,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from tasabido.serializers import UsuarioSerializer, AjudaSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer
-from .models import Duvida, Ajuda, Materia, Subtopico
+from rest_framework.decorators import api_view
+import dateutil.parser
+from django.http import JsonResponse
+from rest_framework.response import Response
+from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer, MonitoriaSerializer
+from .models import Duvida, Materia, Subtopico, Monitoria
 
 # Create your views here.
 def index(requests):
@@ -12,57 +16,71 @@ def index(requests):
 
 
 @csrf_exempt
+@api_view(['POST'])
 def cadastrar_usuario(request):
-    nome = request.POST.get('first_name', False)
-    login = request.POST.get('username', False)
-    email = request.POST.get('email', False)
-    senha = request.POST.get('password', False)
+    nome = request.POST.get('first_name', '')
+    login = request.POST.get('username', '')
+    email = request.POST.get('email', '')
+    senha = request.POST.get('password', '')
     usuario = User.objects.create_user(first_name=nome, username=login, email=email, password=senha)
     usuario.save()
     return HttpResponse("0")
 
 @csrf_exempt
+@api_view(['POST'])
 def cadastrar_duvida(request):
-    titulo = request.POST.get('titulo', False)
-    descricao = request.POST.get('descricao', False)
+    if request.method == 'POST':
+        titulo = request.POST.get('titulo', '')
+        descricao = request.POST.get('descricao', '')
+        id_usuario = request.POST['id_usuario']
+        id_materia = request.POST['id_materia']
+        id_subtopico = request.POST['id_subtopico']
+        user = User.objects.get(pk=id_usuario)
+        materia = Materia.objects.get(pk=id_materia)
+        subtopico = Subtopico.objects.get(pk=id_subtopico)
+        duvida = Duvida(titulo=titulo, descricao=descricao)
+        duvida.usuario = user
+        duvida.materia = materia
+        duvida.subtopico = subtopico
+        duvida.save()
+    return JsonResponse({duvida: {"Teste"}})
+
+@csrf_exempt
+@api_view(['POST'])
+def cadastrar_monitoria(request):
+    endereco = request.POST.get('endereco', '')
+    titulo = request.POST.get('titulo', '')
+    descricao = request.POST.get('descricao', '')
+    data_monitoria = request.POST.get('data_monitoria', '')
+    hora = dateutil.parser.parse(request.POST.get('hora', ''))
+    lat = request.POST.get('lat', '')
+    long = request.POST.get('long', '')
     id_usuario = request.POST['id_usuario']
     id_materia = request.POST['id_materia']
     id_subtopico = request.POST['id_subtopico']
     user = User.objects.get(pk=id_usuario)
     materia = Materia.objects.get(pk=id_materia)
     subtopico = Subtopico.objects.get(pk=id_subtopico)
-    duvida = Duvida(titulo=titulo, descricao=descricao)
-    duvida.usuario = user
-    duvida.materia = materia
-    duvida.subtopico = subtopico
-    duvida.save()
-    return HttpResponse("Duvida cadastrada.")
+    monitoria = Monitoria(titulo=titulo, descricao=descricao, endereco=endereco, data_monitoria=data_monitoria, hora=hora, lat=lat, long=long)
+    monitoria.usuario = user
+    monitoria.materia = materia
+    monitoria.subtopico = subtopico
+    monitoria.save()
+    monitoriaSer = MonitoriaSerializer(monitoria)
+    return Response({'sucesso': True, 'data':{ 'monitoria':monitoriaSer.data }})
+
 
 @csrf_exempt
-def cadastrar_ajuda(request):
-    titulo = request.POST.get('titulo', False)
-    descricao = request.POST.get('descricao', False)
-    id_usuario = request.POST['id_usuario']
-    id_materia = request.POST['id_materia']
-    id_subtopico = request.POST['id_subtopico']
-    user = User.objects.get(pk=id_usuario)
-    materia = Materia.objects.get(pk=id_materia)
-    subtopico = Subtopico.objects.get(pk=id_subtopico)
-    ajuda = Ajuda(titulo=titulo, descricao=descricao)
-    ajuda.usuario = user
-    ajuda.materia = materia
-    ajuda.subtopico = subtopico
-    ajuda.save()
-    return HttpResponse("Ajuda cadastrada.")
-
-@csrf_exempt
+@api_view(['POST'])
 def cadastrar_materia(request):
-    nome = request.POST.get('nome', False)
+    nome = request.POST.get('nome', '')
     materia = Materia(nome=nome)
     materia.save()
-    return HttpResponse("Materia cadastrada.")
+    materiaSerialiazed = MateriaSerializer(materia)
+    return Response({'sucesso': True, 'data':{ 'materia':materiaSerialiazed.data }})
 
 @csrf_exempt
+@api_view(['POST'])
 def cadastrar_subtopico(request):
     nome = request.POST.get('nome')
     id_materia = request.POST['id_materia']
@@ -70,9 +88,11 @@ def cadastrar_subtopico(request):
     subtopico = Subtopico(nome=nome)
     subtopico.materia = materia
     subtopico.save()
-    return HttpResponse("Materia cadastrada.")
+    subtopicoSerialiazed = SubtopicoSerializer(subtopico)
+    return Response({'sucesso': True, 'data':{ 'subtopico':subtopicoSerialiazed.data }})
 
 @csrf_exempt
+@api_view(['POST'])
 def autenticar_usuario(request):
     login = request.POST.get('username')
     senha = request.POST.get('password')
@@ -81,11 +101,13 @@ def autenticar_usuario(request):
     if user is not None:
         # the password verified for the user
         if user.is_active:
-            return HttpResponse("0")
+            success = True
         else:
-            return HttpResponse("1")
+            success = False
     else:
-        return HttpResponse("2")
+        success = False
+    return Response({'success': success, 'data':{ 'username':login, 'id': user.id }})
+
 
 class UsuariosList(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -103,6 +125,6 @@ class DuvidasList(generics.ListCreateAPIView):
     queryset = Duvida.objects.all()
     serializer_class = DuvidaSerializer
 
-class AjudasList(generics.ListCreateAPIView):
-    queryset = Ajuda.objects.all()
-    serializer_class = AjudaSerializer
+class MonitoriasList(generics.ListCreateAPIView):
+    queryset = Monitoria.objects.all()
+    serializer_class = MonitoriaSerializer
