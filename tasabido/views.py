@@ -48,40 +48,6 @@ def cadastrar_duvida(request):
         duvida.save()
     return JsonResponse({duvida: {"Teste"}})
 
-
-# @csrf_exempt
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def cadastrar_monitoria(request):
-#     endereco = request.POST.get('endereco', '')
-#     titulo = request.POST.get('titulo', '')
-#     descricao = request.POST.get('descricao', '')
-#     data_monitoria = request.POST.get('data_monitoria', '')
-#     lat = request.POST.get('lat', '')
-#     long = request.POST.get('long', '')
-#     id_usuario = request.POST['id_usuario']
-#     id_materia = request.POST['id_materia']
-#     user = User.objects.get(pk=id_usuario)
-#     materia = Materia.objects.get(pk=id_materia)
-#     monitoria = Monitoria(titulo=titulo, descricao=descricao, endereco=endereco, data_monitoria=data_monitoria,
-#                           lat=lat, long=long)
-#     ids_subtopico = request.POST.getlist('array_id_subtopico[]')
-#     subtopicos = Subtopico.objects.filter(id__in=ids_subtopico)
-#     monitoria.usuario = user
-#     monitoria.materia = materia
-#     monitoria.subtopico = subtopicos
-#     monitoria.save()
-#     monitoriaSer = MonitoriaSerializer(monitoria)
-#     return Response({'sucesso': True, 'data': {'monitoria': monitoriaSer.data}})
-#
-#    #  user = request.data.get('userData')
-#    # ids = request.data.get("IdsMaterias")
-#    #
-#    # materias = MateriaMendes.objects.filter(id__in=ids)
-#    #
-#    # user = UsuarioMendes.objects.create(materias=materias, **user)
-
-
 @csrf_exempt
 @api_view(['POST'])
 def cadastrar_materia(request):
