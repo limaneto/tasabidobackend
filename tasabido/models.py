@@ -41,8 +41,8 @@ class Monitoria(Commom):
     endereco = models.CharField(null=True, max_length=200)
     lat = models.DecimalField(decimal_places=6, max_digits=9)
     long = models.DecimalField(decimal_places=6, max_digits=9)
-    materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
-    subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
+    materia = models.ForeignKey(Materia)
+    subtopico = models.ManyToManyField(Subtopico)
 
     def __unicode__(self):
         return self.descricao
