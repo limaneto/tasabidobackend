@@ -46,7 +46,8 @@ def cadastrar_duvida(request):
         duvida.materia = materia
         duvida.subtopico = subtopico
         duvida.save()
-    return JsonResponse({duvida: {"Teste"}})
+        success = True
+    return Response({'success': success})
 
 @csrf_exempt
 @api_view(['POST'])
