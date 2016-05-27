@@ -27,6 +27,9 @@ class Subtopico(models.Model):
 
 class Duvida(Commom):
     data_criacao = models.DateField(auto_now=True)
+    data_monitoria = models.DateField(auto_now=True, null=True)
+    segunda_data_monitoria = models.DateField(auto_now=True, null=True)
+    terceira_data_monitoria = models.DateField(auto_now=True, null=True)
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
     subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
 
@@ -35,9 +38,9 @@ class Duvida(Commom):
 
 
 class Monitoria(Commom):
-    data_monitoria = models.DateTimeField(auto_now=True, null=True)
-    data_monitoria_um = models.DateTimeField(auto_now=True, null=True)
-    data_monitoria_dois = models.DateTimeField(auto_now=True, null=True)
+    data_monitoria = models.DateField(auto_now=True, null=True)
+    segunda_data_monitoria = models.DateField(auto_now=True, null=True)
+    terceira_data_monitoria = models.DateField(auto_now=True, null=True)
     endereco = models.CharField(null=True, max_length=200)
     lat = models.DecimalField(decimal_places=6, max_digits=9)
     long = models.DecimalField(decimal_places=6, max_digits=9)
