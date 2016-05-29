@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
@@ -8,7 +9,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer, MonitoriaSerializer
 from .models import Duvida, Materia, Subtopico, Monitoria
-import json
 
 
 # Create your views here.
@@ -23,9 +23,22 @@ def cadastrar_usuario(request):
     login = request.POST.get('username', '')
     email = request.POST.get('email', '')
     senha = request.POST.get('password', '')
-    usuario = User.objects.create_user(first_name=nome, username=login, email=email, password=senha)
+    try:
+        usuario = User.objects.create_user(first_name=nome, username=login, email=email, password=senha)
+    except IntegrityError as e:
+        if 'UNIQUE constraint failed' in e.message:
+            success = False
+            message = 'Login em uso'
+            return Response({'success': success, 'message': message})
+
     usuario.save()
-    return HttpResponse("0")
+    if usuario.pk is not None:
+        success = True
+        return Response({'success': success, 'username': login, 'id': usuario.id})
+    else:
+        success = False
+        return Response({'success': success})
+
 
 
 @csrf_exempt
@@ -46,7 +59,11 @@ def cadastrar_duvida(request):
         duvida.subtopico = subtopico
         duvida.save()
         success = True
-    return Response({'success': success, 'id_duvida':duvida.pk})
+        if duvida.pk is not None:
+            return Response({'success': success, 'id_duvida':duvida.pk})
+        else:
+            success = False
+            return Response({'success': success})
 
 @csrf_exempt
 @api_view(['POST'])
@@ -97,7 +114,10 @@ def cadastrar_monitoria(request):
     monitoria.subtopico = subtopicos
     monitoria.save()
     monitoriaSer = MonitoriaSerializer(monitoria)
-    return Response({'sucesso': True, 'data': {'monitoria': monitoriaSer.data}})
+    if monitoria.pk is not None:
+        return Response({'sucesso': True, 'data': {'monitoria': monitoriaSer.data}})
+    else:
+        return Response({'sucesso': False})
 
 
 @csrf_exempt
@@ -112,6 +132,7 @@ def autenticar_usuario(request):
         if user.is_active:
             success = True
             return Response({'success': success, 'username': login, 'id': user.id})
+
         else:
             success = False
             return Response({'success': success})
