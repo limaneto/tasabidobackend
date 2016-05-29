@@ -27,9 +27,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5r+5sc@51%zvnazl%oprvgu=^0^#kedu$p-_@d63i-0_j6b4%z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://avalan.herokuapp.com/tasabido/']
 
 
 # Application definition
