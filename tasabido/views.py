@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -119,10 +121,11 @@ def cadastrar_monitoria(request):
     monitoria.save()
     monitoriaSer = MonitoriaSerializer(monitoria)
     if monitoria.pk is not None:
-        message = 'Monitoria Cadastrada com Sucesso'
+
+        message = u'Monitoria Cadastrada com Sucesso'
         return Response({'sucesso': True, 'message':message, 'id_monitoria':monitoria.pk})
     else:
-        message = 'Ocorreu algum problema, tente mais tarde'
+        message = u'Ocorreu algum problema, tente mais tarde'
         return Response({'sucesso': False, 'message':message})
 
 
@@ -137,16 +140,16 @@ def autenticar_usuario(request):
         # the password verified for the user
         if user.is_active:
             success = True
-            message = 'Usuario Cadastrado Com Sucesso'
+            message = u'Usuario Cadastrado Com Sucesso'
             return Response({'success': success, 'message':message, 'username': login, 'id': user.id})
 
         else:
             success = False
-            message = 'Usuario Não Ativo'
-            return Response({'success': success})
+            message = u'Usuario Não Ativo'
+            return Response({'success': success, 'message':message})
     else:
         success = False
-        message = 'Ocorreu algum problema, tente mais tarde'
+        message = u'Ocorreu algum problema, tente mais tarde'
         return Response({'success': success, 'message':message})
 
 
