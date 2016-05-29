@@ -46,7 +46,7 @@ def cadastrar_duvida(request):
         duvida.subtopico = subtopico
         duvida.save()
         success = True
-    return Response({'success': success})
+    return Response({'success': success, 'id_duvida':duvida.pk})
 
 @csrf_exempt
 @api_view(['POST'])
