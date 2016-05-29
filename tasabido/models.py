@@ -26,7 +26,6 @@ class Subtopico(models.Model):
 
 
 class Duvida(Commom):
-    data_criacao = models.DateTimeField(auto_now=True)
     data_monitoria = models.DateTimeField('Data da monitoria', blank=True, null=True)
     segunda_data_monitoria = models.DateTimeField('Data da monitoria 2', blank=True, null=True)
     terceira_data_monitoria = models.DateTimeField('Data da monitoria 3', blank=True, null=True)
