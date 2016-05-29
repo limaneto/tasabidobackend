@@ -34,10 +34,12 @@ def cadastrar_usuario(request):
     usuario.save()
     if usuario.pk is not None:
         success = True
-        return Response({'success': success, 'username': login, 'id': usuario.id})
+        message = 'Usuario Cadastrado Com Sucesso'
+        return Response({'success': success, 'message': message, 'username': login, 'id': usuario.id})
     else:
         success = False
-        return Response({'success': success})
+        message = 'Ocorreu algum problema'
+        return Response({'success': success, 'message': message})
 
 
 
@@ -60,10 +62,12 @@ def cadastrar_duvida(request):
         duvida.save()
         success = True
         if duvida.pk is not None:
-            return Response({'success': success, 'id_duvida':duvida.pk})
+            message = 'Duvida Cadastrada com Sucesso'
+            return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
         else:
             success = False
-            return Response({'success': success})
+            message = 'Ocorreu algum problema'
+            return Response({'success': success, 'message':message})
 
 @csrf_exempt
 @api_view(['POST'])
@@ -115,9 +119,11 @@ def cadastrar_monitoria(request):
     monitoria.save()
     monitoriaSer = MonitoriaSerializer(monitoria)
     if monitoria.pk is not None:
-        return Response({'sucesso': True, 'data': {'monitoria': monitoriaSer.data}})
+        message = 'Monitoria Cadastrada com Sucesso'
+        return Response({'sucesso': True, 'message':message, 'id_monitoria':monitoria.pk})
     else:
-        return Response({'sucesso': False})
+        message = 'Ocorreu algum problema, tente mais tarde'
+        return Response({'sucesso': False, 'message':message})
 
 
 @csrf_exempt
@@ -131,14 +137,17 @@ def autenticar_usuario(request):
         # the password verified for the user
         if user.is_active:
             success = True
-            return Response({'success': success, 'username': login, 'id': user.id})
+            message = 'Usuario Cadastrado Com Sucesso'
+            return Response({'success': success, 'message':message, 'username': login, 'id': user.id})
 
         else:
             success = False
+            message = 'Usuario Não Ativo'
             return Response({'success': success})
     else:
         success = False
-        return Response({'success': success})
+        message = 'Ocorreu algum problema, tente mais tarde'
+        return Response({'success': success, 'message':message})
 
 
 
