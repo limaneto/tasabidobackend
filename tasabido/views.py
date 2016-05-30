@@ -188,24 +188,6 @@ def atualizar_duvida(request):
             return Response({'success': success, 'message':message})
 
 
-@csrf_exempt
-@api_view(['POST'])
-def deletar_duvida(request):
-    if request.method == 'POST':
-        id_usuario = request.POST['id_usuario']
-        id_duvida = request.POST['id_duvida']
-        duvidaToDelete = Duvida.objects.get(pk=id_duvida)
-
-        if duvidaToDelete.usuario_id == int(id_usuario):
-            duvidaToDelete.delete()
-            message = u'Dúvida deletada com sucesso'
-            return Response({'success': False, 'message':message})
-        else:
-            message = u'Usuário não é o criador dessa dúvida'
-            return Response({'success': False, 'message':message})
-
-
-
 
 class UsuariosList(generics.ListCreateAPIView):
     queryset = User.objects.all()

@@ -16,9 +16,7 @@ urlpatterns = [
     url(r'^cadastrar_subtopico/', views.cadastrar_subtopico),
     url(r'^autenticar_usuario/', views.autenticar_usuario),
     url(r'^cadastrar_monitoria/', views.cadastrar_monitoria),
-    url(r'^atualizar_duvida/', views.atualizar_duvida),
-    url(r'^deletar_duvida/', views.deletar_duvida)
-
+    url(r'^atualizar_duvida/', views.atualizar_duvida)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
