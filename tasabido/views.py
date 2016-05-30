@@ -36,11 +36,11 @@ def cadastrar_usuario(request):
     usuario.save()
     if usuario.pk is not None:
         success = True
-        message = u'Usuario Cadastrado Com Sucesso'
+        message = 'Usuario Cadastrado Com Sucesso'
         return Response({'success': success, 'message': message, 'username': login, 'id': usuario.id})
     else:
         success = False
-        message = u'Ocorreu algum problema'
+        message = 'Ocorreu algum problema'
         return Response({'success': success, 'message': message})
 
 
@@ -64,11 +64,11 @@ def cadastrar_duvida(request):
         duvida.save()
         success = True
         if duvida.pk is not None:
-            message = u'Duvida Cadastrada com Sucesso'
+            message = 'Duvida Cadastrada com Sucesso'
             return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
         else:
             success = False
-            message = u'Ocorreu algum problema'
+            message = 'Ocorreu algum problema'
             return Response({'success': success, 'message':message})
 
 @csrf_exempt
@@ -170,8 +170,8 @@ def atualizar_duvida(request):
         if duvidaToDelete.usuario_id == int(id_usuario):
             duvidaToDelete.delete()
         else:
-            message = 'Ocorreu algum problema'
             success = False
+            message = 'Ocorreu algum problema'
             return Response({'success': success, 'message':message})
 
         duvida = Duvida(titulo=titulo, descricao=descricao)
@@ -179,9 +179,9 @@ def atualizar_duvida(request):
         duvida.materia = materia
         duvida.subtopico = subtopico
         duvida.save()
+        success = True
         if duvida.pk is not None:
             message = 'Duvida Atualizada com Sucesso'
-            success = True
             return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
         else:
             success = False
