@@ -170,8 +170,9 @@ def atualizar_duvida(request):
         if duvidaToDelete.usuario_id == int(id_usuario):
             duvidaToDelete.delete()
         else:
-            message = u'Usuário não é o criador dessa dúvida'
-            return Response({'success': False, 'message':message})
+            message = u'Ocorreu algum problema'
+            success = False
+            return Response({'success': success, 'message':message})
 
         duvida = Duvida(titulo=titulo, descricao=descricao)
         duvida.usuario = user
@@ -181,6 +182,7 @@ def atualizar_duvida(request):
         success = True
         if duvida.pk is not None:
             message = u'Duvida Atualizada com Sucesso'
+            success = True
             return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
         else:
             success = False
