@@ -178,8 +178,8 @@ def atualizar_duvida(request):
         duvida.materia = materia
         duvida.subtopico = subtopico
         duvida.save()
-        success = True
         if duvida.pk is not None:
+            success = True
             message = u'Duvida Atualizada com Sucesso'
             return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
         else:
@@ -198,7 +198,7 @@ def deletar_duvida(request):
         if duvidaToDelete.usuario_id == int(id_usuario):
             duvidaToDelete.delete()
             message = u'Dúvida deletada com sucesso'
-            return Response({'success': False, 'message':message})
+            return Response({'success': True, 'message':message})
         else:
             message = u'Usuário não é o criador dessa dúvida'
             return Response({'success': False, 'message':message})
