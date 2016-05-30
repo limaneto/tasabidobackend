@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -41,8 +42,8 @@ class Monitoria(Commom):
     segunda_data_monitoria = models.DateTimeField('Data da monitoria 2', blank=True, null=True)
     terceira_data_monitoria = models.DateTimeField('Data da monitoria 3', blank=True, null=True)
     endereco = models.CharField(null=True, max_length=200)
-    lat = models.DecimalField(decimal_places=6, max_digits=9, null=True, blank=True)
-    long = models.DecimalField(decimal_places=6, max_digits=9, null=True, blank=True)
+    lat = models.DecimalField(decimal_places=6, max_digits=9, default=Decimal(0.00))
+    long = models.DecimalField(decimal_places=6, max_digits=9, default=Decimal(0.00))
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
     subtopico = models.ManyToManyField(Subtopico)
 
