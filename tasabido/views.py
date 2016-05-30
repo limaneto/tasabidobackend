@@ -170,7 +170,7 @@ def atualizar_duvida(request):
         if duvidaToDelete.usuario_id == int(id_usuario):
             duvidaToDelete.delete()
         else:
-            message = u'Ocorreu algum problema'
+            message = 'Ocorreu algum problema'
             success = False
             return Response({'success': success, 'message':message})
 
@@ -179,14 +179,13 @@ def atualizar_duvida(request):
         duvida.materia = materia
         duvida.subtopico = subtopico
         duvida.save()
-        success = True
         if duvida.pk is not None:
-            message = u'Duvida Atualizada com Sucesso'
+            message = 'Duvida Atualizada com Sucesso'
             success = True
             return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
         else:
             success = False
-            message = u'Ocorreu algum problema'
+            message = 'Ocorreu algum problema'
             return Response({'success': success, 'message':message})
 
 
