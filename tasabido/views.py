@@ -36,11 +36,11 @@ def cadastrar_usuario(request):
     usuario.save()
     if usuario.pk is not None:
         success = True
-        message = 'Usuario Cadastrado Com Sucesso'
+        message = u'Usuario Cadastrado Com Sucesso'
         return Response({'success': success, 'message': message, 'username': login, 'id': usuario.id})
     else:
         success = False
-        message = 'Ocorreu algum problema'
+        message = u'Ocorreu algum problema'
         return Response({'success': success, 'message': message})
 
 
@@ -64,11 +64,11 @@ def cadastrar_duvida(request):
         duvida.save()
         success = True
         if duvida.pk is not None:
-            message = 'Duvida Cadastrada com Sucesso'
+            message = u'Duvida Cadastrada com Sucesso'
             return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
         else:
             success = False
-            message = 'Ocorreu algum problema'
+            message = u'Ocorreu algum problema'
             return Response({'success': success, 'message':message})
 
 @csrf_exempt
@@ -151,6 +151,41 @@ def autenticar_usuario(request):
         success = False
         message = u'Ocorreu algum problema, tente mais tarde'
         return Response({'success': success, 'message':message})
+
+@csrf_exempt
+@api_view(['POST'])
+def atualizar_duvida(request):
+    if request.method == 'POST':
+        titulo = request.POST.get('titulo', '')
+        descricao = request.POST.get('descricao', '')
+        id_usuario = request.POST['id_usuario']
+        id_materia = request.POST['id_materia']
+        id_subtopico = request.POST['id_subtopico']
+        id_duvida = request.POST['id_duvida']
+        user = User.objects.get(pk=id_usuario)
+        materia = Materia.objects.get(pk=id_materia)
+        subtopico = Subtopico.objects.get(pk=id_subtopico)
+        duvidaToDelete = Duvida.objects.get(pk=id_duvida)
+
+        if duvidaToDelete.usuario_id == int(id_usuario):
+            duvidaToDelete.delete()
+        else:
+            message = u'Usuário não é o criador dessa dúvida'
+            return Response({'success': False, 'message':message})
+
+        duvida = Duvida(titulo=titulo, descricao=descricao)
+        duvida.usuario = user
+        duvida.materia = materia
+        duvida.subtopico = subtopico
+        duvida.save()
+        success = True
+        if duvida.pk is not None:
+            message = u'Duvida Atualizada com Sucesso'
+            return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
+        else:
+            success = False
+            message = u'Ocorreu algum problema'
+            return Response({'success': success, 'message':message})
 
 
 
