@@ -4,11 +4,13 @@ from django.db import IntegrityError
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
+from rest_framework import viewsets
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer, MonitoriaSerializer
 from .models import Duvida, Materia, Subtopico, Monitoria
 
@@ -204,6 +206,66 @@ def deletar_duvida(request):
             return Response({'success': False, 'message':message})
 
 
+@csrf_exempt
+@api_view(['POST'])
+def deletar_monitoria(request):
+    if request.method == 'POST':
+        id_usuario = request.POST['id_usuario']
+        id_monitoria = request.POST['id_monitoria']
+        monitoriaToDelete = Monitoria.objects.get(pk=id_monitoria)
+
+        if monitoriaToDelete.usuario_id == int(id_usuario):
+            monitoriaToDelete.delete()
+            message = u'Monitoria deletada com sucesso'
+            return Response({'success': True, 'message':message})
+        else:
+            message = u'Usuário não é o criador dessa monitoria'
+            return Response({'success': False, 'message':message})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def atualizar_monitoria(request):
+    endereco = request.data.get('endereco', '')
+    titulo = request.data.get('titulo', '')
+    descricao = request.data.get('descricao', '')
+    lat = request.data.get('lat', '')
+    long = request.data.get('long', '')
+    data_monitoria = request.data.get('data_monitoria')
+    segunda_data_monitoria = request.data.get('segunda_data_monitoria')
+    terceira_data_monitoria = request.data.get('terca_data_monitoria')
+    id_usuario = request.data['id_usuario']
+    id_materia = request.data['id_materia']
+    id_monitoria = request.data['id_monitoria']
+    user = User.objects.get(pk=id_usuario)
+    materia = Materia.objects.get(pk=id_materia)
+    monitoriaToDelete = Monitoria.objects.get(pk=id_monitoria)
+
+    if monitoriaToDelete.usuario_id == int(id_usuario):
+         monitoriaToDelete.delete()
+    else:
+        message = u'Usuário não é o criador dessa dúvida'
+        return Response({'success': False, 'message':message})
+
+    monitoria = Monitoria(titulo=titulo, descricao=descricao, endereco=endereco, data_monitoria=data_monitoria, segunda_data_monitoria=segunda_data_monitoria,
+                  terceira_data_monitoria=terceira_data_monitoria, lat=lat, long=long)
+    ids_subtopico = request.data.get('ids_subtopicos')
+    subtopicos = Subtopico.objects.filter(id__in=ids_subtopico)
+    monitoria.usuario = user
+    monitoria.materia = materia
+    monitoria.save()
+    monitoria.subtopico = subtopicos
+    monitoria.save()
+    monitoriaSer = MonitoriaSerializer(monitoria)
+    if monitoria.pk is not None:
+        message = u'Monitoria Atualizada com Sucesso'
+        return Response({'sucesso': True, 'message':message, 'id_monitoria':monitoria.pk})
+    else:
+        message = u'Ocorreu algum problema, tente mais tarde'
+        return Response({'sucesso': False, 'message':message})
+
+
+
 class UsuariosList(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
@@ -225,5 +287,9 @@ class DuvidasList(generics.ListCreateAPIView):
 
 
 class MonitoriasList(generics.ListCreateAPIView):
+    queryset = Monitoria.objects.all()
+    serializer_class = MonitoriaSerializer
+
+class MonitoriaManagerViewSet(generics.RetrieveUpdateDestroyAPIView):
     queryset = Monitoria.objects.all()
     serializer_class = MonitoriaSerializer
