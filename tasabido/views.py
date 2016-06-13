@@ -142,7 +142,7 @@ def autenticar_usuario(request):
         # the password verified for the user
         if user.is_active:
             success = True
-            message = u'Usuario Cadastrado Com Sucesso'
+            message = u'Usuario Autenticado Com Sucesso'
             return Response({'success': success, 'message':message, 'username': login, 'id': user.id})
 
         else:
@@ -209,18 +209,17 @@ def deletar_duvida(request):
 @csrf_exempt
 @api_view(['POST'])
 def deletar_monitoria(request):
-    if request.method == 'POST':
-        id_usuario = request.POST['id_usuario']
-        id_monitoria = request.POST['id_monitoria']
-        monitoriaToDelete = Monitoria.objects.get(pk=id_monitoria)
+    id_usuario = request.data.get('id_usuario', '')
+    id_monitoria = request.data.get('id_monitoria', '')
+    monitoriaToDelete = Monitoria.objects.get(pk=id_monitoria)
 
-        if monitoriaToDelete.usuario_id == int(id_usuario):
-            monitoriaToDelete.delete()
-            message = u'Monitoria deletada com sucesso'
-            return Response({'success': True, 'message':message})
-        else:
-            message = u'Usuário não é o criador dessa monitoria'
-            return Response({'success': False, 'message':message})
+    if monitoriaToDelete.usuario_id == int(id_usuario):
+        monitoriaToDelete.delete()
+        message = u'Monitoria deletada com sucesso'
+        return Response({'success': True, 'message':message})
+    else:
+        message = u'Usuário não é o criador dessa monitoria'
+        return Response({'success': False, 'message':message})
 
 
 @csrf_exempt
