@@ -1,79 +1,6 @@
-# -*- coding: utf-8 -*-
-
-from django.db import IntegrityError
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework import generics
-from rest_framework import viewsets
-from rest_framework.generics import ListAPIView
-from tasabido import permissions
-from tasabido.permissions import IsOwnerOrReadOnly
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer, MonitoriaSerializer, MoedaSerializer
-from .models import Duvida, Materia, Subtopico, Monitoria, Moeda
-
-
-# Create your views here.
-def index(requests):
-    return HttpResponse("Bem vindo maxo!")
-
-
 @csrf_exempt
 @api_view(['POST'])
-def cadastrar_usuario(request):
-    nome = request.POST.get('first_name', '')
-    login = request.POST.get('username', '')
-    email = request.POST.get('email', '')
-    senha = request.POST.get('password', '')
-    try:
-        usuario = User.objects.create_user(first_name=nome, username=login, email=email, password=senha)
-    except IntegrityError as e:
-        if 'UNIQUE constraint failed' in e.message:
-            success = False
-            message = 'Login em uso'
-            return Response({'success': success, 'message': message})
-
-    usuario.save()
-    if usuario.pk is not None:
-        moeda = Moeda(usuario=usuario)
-        moeda.save()
-        success = True
-        message = 'Usuario Cadastrado Com Sucesso'
-        return Response({'success': success, 'message': message, 'username': login, 'id': usuario.id})
-    else:
-        success = False
-        message = 'Ocorreu algum problema'
-        return Response({'success': success, 'message': message})
-
-
-@csrf_exempt
-@api_view(['POST'])
-def autenticar_usuario(request):
-    login = request.POST.get('username')
-    senha = request.POST.get('password')
-    user = authenticate(username=login, password=senha)
-
-    if user is not None:
-        # the password verified for the user
-        if user.is_active:
-            success = True
-            message = u'Usuario Cadastrado Com Sucesso'
-            return Response({'success': success, 'message':message, 'username': login, 'id': user.id})
-
-        else:
-            success = False
-            message = u'Usuario Não Ativo'
-            return Response({'success': success, 'message':message})
-    else:
-        success = False
-        message = u'Ocorreu algum problema, tente mais tarde'
-        return Response({'success': success, 'message':message})
-
-@csrf_exempt
-@api_view(['POST'])
+@permission_classes([AllowAny])
 def cadastrar_monitoria(request):
     endereco = request.data.get('endereco', '')
     titulo = request.data.get('titulo', '')
@@ -105,7 +32,7 @@ def cadastrar_monitoria(request):
         message = u'Ocorreu algum problema, tente mais tarde'
         return Response({'sucesso': False, 'message':message})
 
-@csrf_exempt
+        @csrf_exempt
 @api_view(['POST'])
 def cadastrar_materia(request):
     nome = request.POST.get('nome', '')
@@ -127,7 +54,7 @@ def cadastrar_subtopico(request):
     subtopicoSerialiazed = SubtopicoSerializer(subtopico)
     return Response({'sucesso': True, 'data': {'subtopico': subtopicoSerialiazed.data}})
 
-@csrf_exempt
+    @csrf_exempt
 @api_view(['POST'])
 def cadastrar_duvida(request):
     if request.method == 'POST':
@@ -188,54 +115,3 @@ def atualizar_duvida(request):
             success = False
             message = 'Ocorreu algum problema'
             return Response({'success': success, 'message':message})
-
-@csrf_exempt
-@api_view(['POST'])
-def pagamento(request):
-    id_usuario_pagante = request.POST['id_usuario_pagante']
-    id_usuario_recebedor = request.POST['id_usuario_recebedor']
-    quantia = request.POST['quantia']
-
-    user_pag = User.objects.get(pk=id_usuario_pagante)
-    user_rec = User.objects.get(pk=id_usuario_recebedor)
-
-    moeda_pag = Moeda.objects.get(usuario=user_pag)
-    moeda_rec = Moeda.objects.get(usuario=user_rec)
-    quantia_int = int(quantia)
-
-    if moeda_pag.quantia >= quantia_int:
-        moeda_rec.quantia += quantia_int
-        moeda_pag.quantia -= quantia_int
-        moeda_rec.save()
-        moeda_pag.save()
-        message = 'Pagamento efetuado com sucesso.'
-        return Response({'success': True, 'message':message, 'moeda': moeda_rec.quantia})
-    else:
-        message = 'Não tem moedas suficiente.'
-        return Response({'success': False, 'message':message, 'moeda':moeda_rec.quantia})
-
-
-class UsuariosModelViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UsuarioSerializer
-
-
-class MateriasModelViewSet(viewsets.ModelViewSet):
-    queryset = Materia.objects.all()
-    serializer_class = MateriaSerializer
-
-class SubtopicosModelViewSet(viewsets.ModelViewSet):
-    queryset = Subtopico.objects.all()
-    serializer_class = SubtopicoSerializer
-
-class DuvidaModelViewSet(viewsets.ModelViewSet):
-    queryset = Duvida.objects.all()
-    serializer_class = DuvidaSerializer
-
-class MonitoriaModelViewSet(viewsets.ModelViewSet):
-    queryset = Monitoria.objects.all()
-    serializer_class = MonitoriaSerializer
-
-class MoedaListView(viewsets.ModelViewSet):
-    queryset = Moeda.objects.all()
-    serializer_class = MoedaSerializer

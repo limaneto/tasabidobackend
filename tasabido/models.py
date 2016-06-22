@@ -49,3 +49,11 @@ class Monitoria(Commom):
 
     def __unicode__(self):
         return self.descricao
+
+
+class Moeda(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantia = models.IntegerField(default=10)
+
+    def __unicode__(self):
+        return self.usuario.username
