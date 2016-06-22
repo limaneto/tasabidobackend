@@ -239,3 +239,4 @@ class MonitoriaModelViewSet(viewsets.ModelViewSet):
 class MoedaListView(viewsets.ModelViewSet):
     queryset = Moeda.objects.all()
     serializer_class = MoedaSerializer
+    lookup_field = 'usuario'

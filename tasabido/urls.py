@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^listar_subtopicos/', views.SubtopicosModelViewSet.as_view({'get':'list'})),
     url(r'^listar_monitorias/', views.MonitoriaModelViewSet.as_view({'get':'list'})),
     url(r'^listar_moedas/', views.MoedaListView.as_view({'get':'list'})),
+    url(r'^moedas_usuario/(?P<usuario>\d+)/$', views.MoedaListView.as_view({'get':'retrieve'})),
     url(r'^cadastrar_usuario/', views.cadastrar_usuario),
     url(r'^cadastrar_duvida/', views.cadastrar_duvida),
     url(r'^cadastrar_materia/', views.cadastrar_materia),
