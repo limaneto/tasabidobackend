@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics
 from rest_framework import viewsets
-from rest_framework.generics import ListAPIView
 from tasabido import permissions
 from tasabido.permissions import IsOwnerOrReadOnly
 from django.contrib.auth.models import User
@@ -191,6 +190,39 @@ def atualizar_duvida(request):
 
 @csrf_exempt
 @api_view(['POST'])
+def deletar_duvida(request):
+    if request.method == 'POST':
+        id_usuario = request.POST['id_usuario']
+        id_duvida = request.POST['id_duvida']
+        duvidaToDelete = Duvida.objects.get(pk=id_duvida)
+
+        if duvidaToDelete.usuario_id == int(id_usuario):
+            duvidaToDelete.delete()
+            message = u'Dúvida deletada com sucesso'
+            return Response({'success': True, 'message':message})
+        else:
+            message = u'Usuário não é o criador dessa dúvida'
+            return Response({'success': False, 'message':message})
+
+
+@csrf_exempt
+@api_view(['POST'])
+def deletar_monitoria(request):
+    id_usuario = request.data.get('id_usuario', '')
+    id_monitoria = request.data.get('id_monitoria', '')
+    monitoriaToDelete = Monitoria.objects.get(pk=id_monitoria)
+
+    if monitoriaToDelete.usuario_id == int(id_usuario):
+        monitoriaToDelete.delete()
+        message = u'Monitoria deletada com sucesso'
+        return Response({'success': True, 'message':message})
+    else:
+        message = u'Usuário não é o criador dessa monitoria'
+        return Response({'success': False, 'message':message})
+
+
+@csrf_exempt
+@api_view(['POST'])
 def pagamento(request):
     id_usuario_pagante = request.POST['id_usuario_pagante']
     id_usuario_recebedor = request.POST['id_usuario_recebedor']
@@ -230,6 +262,7 @@ class SubtopicosModelViewSet(viewsets.ModelViewSet):
 class DuvidaModelViewSet(viewsets.ModelViewSet):
     queryset = Duvida.objects.all()
     serializer_class = DuvidaSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
 
 class MonitoriaModelViewSet(viewsets.ModelViewSet):
     queryset = Monitoria.objects.all()
