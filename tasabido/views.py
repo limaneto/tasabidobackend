@@ -61,7 +61,7 @@ def autenticar_usuario(request):
         if user.is_active:
             success = True
             message = u'Usuario Cadastrado Com Sucesso'
-            return Response({'success': success, 'message':message, 'username': login, 'id': user.id})
+            return Response({'success': success, 'message':message, 'username': login, 'id': user.id, 'first_name': user.first_name, 'email':user.email})
 
         else:
             success = False
@@ -218,7 +218,6 @@ def pagamento(request):
 class UsuariosModelViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
-
 
 class MateriasModelViewSet(viewsets.ModelViewSet):
     queryset = Materia.objects.all()
