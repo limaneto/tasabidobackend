@@ -2,10 +2,9 @@
 
 from django.db import IntegrityError
 from django.http import HttpResponse
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import generics
 from rest_framework import viewsets
-from tasabido import permissions
 from tasabido.permissions import IsOwnerOrReadOnly
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -246,10 +245,30 @@ def pagamento(request):
         message = 'Não tem moedas suficiente.'
         return Response({'success': False, 'message':message, 'moeda':moeda_rec.quantia})
 
+@api_view(['POST'])
+def send_email(request):
+    id_to = request.POST.get('id_to', '')
+    user_to = User.objects.get(pk=id_to)
+    to_email = user_to.email
+
+    assunto = request.POST.get('assunto', '')
+    message = request.POST.get('message', '')
+
+    if assunto and message and to_email:
+        try:
+            email = EmailMessage(assunto, message, to=[to_email])
+            email.send()
+        except BadHeaderError:
+            return Response({'success': False, 'message': 'Ocorreu algum problema'})
+        return Response({'success': True, 'message': 'Email Enviado'})
+    else:
+        return Response({'success': False, 'message': 'Preencha todos os campos'})
+
 
 class UsuariosModelViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
+    lookup_field = 'username'
 
 class MateriasModelViewSet(viewsets.ModelViewSet):
     queryset = Materia.objects.all()

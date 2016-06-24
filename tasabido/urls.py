@@ -11,9 +11,15 @@ urlpatterns = [
     url(r'^listar_subtopicos/', views.SubtopicosModelViewSet.as_view({'get': 'list'})),
     url(r'^listar_monitorias/', views.MonitoriaModelViewSet.as_view({'get': 'list'})),
     url(r'^listar_moedas/', views.MoedaListView.as_view({'get': 'list'})),
+
+
     url(r'^monitoria/(?P<pk>\d+)/$', views.MonitoriaModelViewSet.as_view({'get': 'retrieve'})),
     url(r'^moedas_usuario/(?P<usuario>\d+)/$', views.MoedaListView.as_view({'get': 'retrieve'})),
+    url(r'^usuario/(?P<username>[\w-]+)/$', views.UsuariosModelViewSet.as_view({'get': 'retrieve'})),
+
+
     url(r'^atualizar_usuario/(?P<pk>[0-9]+)/$', views.UsuariosModelViewSet.as_view({'put':'update'})),
+
     url(r'^cadastrar_usuario/', views.cadastrar_usuario),
     url(r'^cadastrar_duvida/', views.cadastrar_duvida),
     url(r'^cadastrar_materia/', views.cadastrar_materia),
@@ -23,7 +29,8 @@ urlpatterns = [
     url(r'^atualizar_duvida/', views.atualizar_duvida),
     url(r'^deletar_duvida/', views.deletar_duvida),
     url(r'^deletar_monitoria/', views.deletar_monitoria),
-    url(r'^pagamento/', views.pagamento)
+    url(r'^pagamento/', views.pagamento),
+    url(r'^enviar_email/', views.send_email)
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
