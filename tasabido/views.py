@@ -224,11 +224,11 @@ def deletar_monitoria(request):
 @api_view(['POST'])
 def pagamento(request):
     id_usuario_pagante = request.POST['id_usuario_pagante']
-    id_usuario_recebedor = request.POST['id_usuario_recebedor']
+    username = request.POST['username']
     quantia = request.POST['quantia']
 
     user_pag = User.objects.get(pk=id_usuario_pagante)
-    user_rec = User.objects.get(pk=id_usuario_recebedor)
+    user_rec = User.objects.get(username=username)
 
     moeda_pag = Moeda.objects.get(usuario=user_pag)
     moeda_rec = Moeda.objects.get(usuario=user_rec)
