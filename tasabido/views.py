@@ -223,9 +223,9 @@ def deletar_monitoria(request):
 @csrf_exempt
 @api_view(['POST'])
 def pagamento(request):
-    id_usuario_pagante = request.POST['id_usuario_pagante']
-    username = request.POST['username']
-    quantia = request.POST['quantia']
+    id_usuario_pagante = request.data.get('id_usuario_pagante','')
+    username = request.data.get('username','')
+    quantia = request.data.get('quantia','')
 
     user_pag = User.objects.get(pk=id_usuario_pagante)
     user_rec = User.objects.get(username=username)
