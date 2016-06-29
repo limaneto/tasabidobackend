@@ -13,12 +13,14 @@ urlpatterns = [
     url(r'^listar_moedas/', views.MoedaListView.as_view({'get': 'list'})),
 
 
+    url(r'^subt_materia/(?P<materia>\d+)/$',  views.SubtopicosListViewSet.as_view()),
     url(r'^monitoria/(?P<pk>\d+)/$', views.MonitoriaModelViewSet.as_view({'get': 'retrieve'})),
     url(r'^moedas_usuario/(?P<usuario>\d+)/$', views.MoedaListView.as_view({'get': 'retrieve'})),
     url(r'^usuario/(?P<username>[\w-]+)/$', views.UsuariosModelViewSet.as_view({'get': 'retrieve'})),
 
 
     url(r'^atualizar_usuario/(?P<pk>[0-9]+)/$', views.UsuariosModelViewSet.as_view({'put':'update'})),
+
 
     url(r'^cadastrar_usuario/', views.cadastrar_usuario),
     url(r'^cadastrar_duvida/', views.cadastrar_duvida),

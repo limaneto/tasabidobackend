@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+from IPython.utils import generics
 
 from django.db import IntegrityError
 from django.http import HttpResponse
-from django.core.mail import send_mail, BadHeaderError, EmailMessage
+from django.core.mail import BadHeaderError, EmailMessage
+from rest_framework import generics
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from tasabido.permissions import IsOwnerOrReadOnly
@@ -264,7 +266,6 @@ def send_email(request):
     else:
         return Response({'success': False, 'message': 'Preencha todos os campos'})
 
-
 class UsuariosModelViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
@@ -273,6 +274,13 @@ class UsuariosModelViewSet(viewsets.ModelViewSet):
 class MateriasModelViewSet(viewsets.ModelViewSet):
     queryset = Materia.objects.all()
     serializer_class = MateriaSerializer
+
+class SubtopicosListViewSet(generics.ListAPIView):
+    queryset = Subtopico.objects.all()
+    serializer_class = SubtopicoSerializer
+    def get_queryset(self):
+        id_materia = self.kwargs['materia']
+        return Subtopico.objects.filter(materia=id_materia)
 
 class SubtopicosModelViewSet(viewsets.ModelViewSet):
     queryset = Subtopico.objects.all()
