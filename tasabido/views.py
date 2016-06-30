@@ -85,7 +85,7 @@ def cadastrar_monitoria(request):
     id_materia = request.data['id_materia']
     user = User.objects.get(pk=id_usuario)
     materia = Materia.objects.get(pk=id_materia)
-    monitoria = Monitoria(titulo=titulo, descricao=descricao, endereco=endereco, data_monitoria=data_monitoria, dia=dia_monitoria, hora=hora_monitoria)
+    monitoria = Monitoria(titulo=titulo, descricao=descricao, endereco=endereco, data_monitoria=data_monitoria, dia=dia_monitoria, horario=hora_monitoria)
     ids_subtopico = request.data.get('ids_subtopicos')
     subtopicos = Subtopico.objects.filter(id__in=ids_subtopico)
     monitoria.usuario = user
