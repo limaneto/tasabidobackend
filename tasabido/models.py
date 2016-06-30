@@ -39,11 +39,10 @@ class Duvida(Commom):
 
 class Monitoria(Commom):
     data_monitoria = models.DateTimeField('Data da monitoria', blank=True, null=True)
-    segunda_data_monitoria = models.DateTimeField('Data da monitoria 2', blank=True, null=True)
-    terceira_data_monitoria = models.DateTimeField('Data da monitoria 3', blank=True, null=True)
+    dia = models.CharField(max_length=100);
+    horario = models.CharField(max_length=100);
+    username = models.CharField(max_length=100);
     endereco = models.CharField(null=True, max_length=200)
-    lat = models.DecimalField(decimal_places=6, max_digits=9, default=Decimal(0.00))
-    long = models.DecimalField(decimal_places=6, max_digits=9, default=Decimal(0.00))
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
     subtopico = models.ManyToManyField(Subtopico)
 
