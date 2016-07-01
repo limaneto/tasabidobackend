@@ -20,6 +20,8 @@ urlpatterns = [
 
 
     url(r'^atualizar_usuario/(?P<pk>[0-9]+)/$', views.UsuariosModelViewSet.as_view({'put':'update'})),
+    url(r'^atualizar_duvida/', views.atualizar_duvida),
+    url(r'^atualizar_monitoria/(?P<pk>[0-9]+)/$', views.MonitoriaModelViewSet.as_view({'put': 'update'})),
 
 
     url(r'^cadastrar_usuario/', views.cadastrar_usuario),
@@ -28,7 +30,7 @@ urlpatterns = [
     url(r'^cadastrar_subtopico/', views.cadastrar_subtopico),
     url(r'^autenticar_usuario/', views.autenticar_usuario),
     url(r'^cadastrar_monitoria/', views.cadastrar_monitoria),
-    url(r'^atualizar_duvida/', views.atualizar_duvida),
+
     url(r'^deletar_duvida/', views.deletar_duvida),
     url(r'^deletar_monitoria/', views.deletar_monitoria),
     url(r'^pagamento/', views.pagamento),

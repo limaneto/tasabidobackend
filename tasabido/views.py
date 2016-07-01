@@ -189,6 +189,9 @@ def atualizar_duvida(request):
             message = 'Ocorreu algum problema'
             return Response({'success': success, 'message':message})
 
+
+
+
 @csrf_exempt
 @api_view(['POST'])
 def deletar_duvida(request):
