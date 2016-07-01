@@ -131,14 +131,16 @@ def cadastrar_duvida(request):
     if request.method == 'POST':
         titulo = request.POST.get('titulo', '')
         descricao = request.POST.get('descricao', '')
+        data_duvida = request.POST.get('data_duvida', '')
         id_usuario = request.POST['id_usuario']
         id_materia = request.POST['id_materia']
         id_subtopico = request.POST['id_subtopico']
         user = User.objects.get(pk=id_usuario)
         materia = Materia.objects.get(pk=id_materia)
         subtopico = Subtopico.objects.get(pk=id_subtopico)
-        duvida = Duvida(titulo=titulo, descricao=descricao)
+        duvida = Duvida(titulo=titulo, descricao=descricao, data_duvida=data_duvida)
         duvida.usuario = user
+        duvida.username = user.username
         duvida.materia = materia
         duvida.subtopico = subtopico
         duvida.save()

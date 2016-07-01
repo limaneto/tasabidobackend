@@ -27,9 +27,8 @@ class Subtopico(models.Model):
 
 
 class Duvida(Commom):
-    data_monitoria = models.DateTimeField('Data da monitoria', blank=True, null=True)
-    segunda_data_monitoria = models.DateTimeField('Data da monitoria 2', blank=True, null=True)
-    terceira_data_monitoria = models.DateTimeField('Data da monitoria 3', blank=True, null=True)
+    data_duvida = models.TextField()
+    username = models.CharField(max_length=100);
     materia = models.ForeignKey(Materia, on_delete=models.CASCADE)
     subtopico = models.ForeignKey(Subtopico, on_delete=models.CASCADE)
 
