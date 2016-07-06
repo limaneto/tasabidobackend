@@ -12,7 +12,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer, MonitoriaSerializer, MoedaSerializer
+from tasabido.serializers import UsuarioSerializer, DuvidaSerializer, MateriaSerializer, SubtopicoSerializer, \
+    MonitoriaSerializer, MoedaSerializer
 from .models import Duvida, Materia, Subtopico, Monitoria, Moeda
 
 
@@ -61,16 +62,18 @@ def autenticar_usuario(request):
         if user.is_active:
             success = True
             message = u'Usuario Cadastrado Com Sucesso'
-            return Response({'success': success, 'message':message, 'username': login, 'id': user.id, 'first_name': user.first_name, 'email':user.email})
+            return Response({'success': success, 'message': message, 'username': login, 'id': user.id,
+                             'first_name': user.first_name, 'email': user.email})
 
         else:
             success = False
             message = u'Usuario Não Ativo'
-            return Response({'success': success, 'message':message})
+            return Response({'success': success, 'message': message})
     else:
         success = False
         message = u'Ocorreu algum problema, tente mais tarde'
-        return Response({'success': success, 'message':message})
+        return Response({'success': success, 'message': message})
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -85,7 +88,8 @@ def cadastrar_monitoria(request):
     id_materia = request.data['id_materia']
     user = User.objects.get(pk=id_usuario)
     materia = Materia.objects.get(pk=id_materia)
-    monitoria = Monitoria(titulo=titulo, descricao=descricao, endereco=endereco, data_monitoria=data_monitoria, dia=dia_monitoria, horario=hora_monitoria)
+    monitoria = Monitoria(titulo=titulo, descricao=descricao, endereco=endereco, data_monitoria=data_monitoria,
+                          dia=dia_monitoria, horario=hora_monitoria)
     ids_subtopico = request.data.get('ids_subtopicos')
     subtopicos = Subtopico.objects.filter(id__in=ids_subtopico)
     monitoria.usuario = user
@@ -98,10 +102,11 @@ def cadastrar_monitoria(request):
     if monitoria.pk is not None:
 
         message = u'Monitoria Cadastrada com Sucesso'
-        return Response({'sucesso': True, 'message':message, 'id_monitoria':monitoria.pk})
+        return Response({'success': True, 'message': message, 'id': monitoria.pk})
     else:
         message = u'Ocorreu algum problema, tente mais tarde'
-        return Response({'sucesso': False, 'message':message})
+        return Response({'success': False, 'message': message})
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -110,7 +115,7 @@ def cadastrar_materia(request):
     materia = Materia(nome=nome)
     materia.save()
     materiaSerialiazed = MateriaSerializer(materia)
-    return Response({'sucesso': True, 'data': {'materia': materiaSerialiazed.data}})
+    return Response({'success': True, 'data': {'materia': materiaSerialiazed.data}})
 
 
 @csrf_exempt
@@ -123,7 +128,8 @@ def cadastrar_subtopico(request):
     subtopico.materia = materia
     subtopico.save()
     subtopicoSerialiazed = SubtopicoSerializer(subtopico)
-    return Response({'sucesso': True, 'data': {'subtopico': subtopicoSerialiazed.data}})
+    return Response({'sucess': True, 'data': {'subtopico': subtopicoSerialiazed.data}})
+
 
 @csrf_exempt
 @api_view(['POST'])
@@ -133,64 +139,48 @@ def cadastrar_duvida(request):
         descricao = request.POST.get('descricao', '')
         data_duvida = request.POST.get('data_duvida', '')
         id_usuario = request.POST['id_usuario']
-        id_materia = request.POST['id_materia']
         id_subtopico = request.POST['id_subtopico']
         user = User.objects.get(pk=id_usuario)
-        materia = Materia.objects.get(pk=id_materia)
         subtopico = Subtopico.objects.get(pk=id_subtopico)
         duvida = Duvida(titulo=titulo, descricao=descricao, data_duvida=data_duvida)
         duvida.usuario = user
         duvida.username = user.username
-        duvida.materia = materia
         duvida.subtopico = subtopico
         duvida.save()
         success = True
         if duvida.pk is not None:
             message = 'Duvida Cadastrada com Sucesso'
-            return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
+            return Response({'success': success, 'message': message, 'id': duvida.pk})
         else:
             success = False
             message = 'Ocorreu algum problema'
-            return Response({'success': success, 'message':message})
+            return Response({'success': success, 'message': message})
+
 
 @csrf_exempt
 @api_view(['POST'])
 def atualizar_duvida(request):
     if request.method == 'POST':
         titulo = request.POST.get('titulo', '')
+        data_duvida = request.POST.get('data_duvida', '')
         descricao = request.POST.get('descricao', '')
         id_usuario = request.POST['id_usuario']
-        id_materia = request.POST['id_materia']
         id_subtopico = request.POST['id_subtopico']
-        id_duvida = request.POST['id_duvida']
+        id_duvida = request.POST.get('id_duvida', '')
         user = User.objects.get(pk=id_usuario)
-        materia = Materia.objects.get(pk=id_materia)
         subtopico = Subtopico.objects.get(pk=id_subtopico)
-        duvidaToDelete = Duvida.objects.get(pk=id_duvida)
+        duvida = Duvida.objects.get(pk=id_duvida)
 
-        if duvidaToDelete.usuario_id == int(id_usuario):
-            duvidaToDelete.delete()
+        if duvida.usuario_id == int(id_usuario):
+            duvida.titulo = titulo
+            duvida.descricao = descricao
+            duvida.data_duvida = data_duvida
+            duvida.usuario = user
+            duvida.subtopico = subtopico
+            duvida.save()
+            return Response({'success': True, 'message': 'Duvida Atualizada com Sucesso', 'id': duvida.pk})
         else:
-            success = False
-            message = 'Ocorreu algum problema'
-            return Response({'success': success, 'message':message})
-
-        duvida = Duvida(titulo=titulo, descricao=descricao)
-        duvida.usuario = user
-        duvida.materia = materia
-        duvida.subtopico = subtopico
-        duvida.save()
-        success = True
-        if duvida.pk is not None:
-            message = 'Duvida Atualizada com Sucesso'
-            return Response({'success': success, 'message':message, 'id_duvida':duvida.pk})
-        else:
-            success = False
-            message = 'Ocorreu algum problema'
-            return Response({'success': success, 'message':message})
-
-
-
+            return Response({'success': False, 'message': 'Ocorreu algum problema'})
 
 @csrf_exempt
 @api_view(['POST'])
@@ -203,10 +193,10 @@ def deletar_duvida(request):
         if duvidaToDelete.usuario_id == int(id_usuario):
             duvidaToDelete.delete()
             message = u'Dúvida deletada com sucesso'
-            return Response({'success': True, 'message':message})
+            return Response({'success': True, 'message': message})
         else:
             message = u'Usuário não é o criador dessa dúvida'
-            return Response({'success': False, 'message':message})
+            return Response({'success': False, 'message': message})
 
 
 @csrf_exempt
@@ -219,18 +209,18 @@ def deletar_monitoria(request):
     if monitoriaToDelete.usuario_id == int(id_usuario):
         monitoriaToDelete.delete()
         message = u'Monitoria deletada com sucesso'
-        return Response({'success': True, 'message':message})
+        return Response({'success': True, 'message': message})
     else:
         message = u'Usuário não é o criador dessa monitoria'
-        return Response({'success': False, 'message':message})
+        return Response({'success': False, 'message': message})
 
 
 @csrf_exempt
 @api_view(['POST'])
 def pagamento(request):
-    id_usuario_pagante = request.data.get('id_usuario_pagante','')
-    username = request.data.get('username','')
-    quantia = request.data.get('quantia','')
+    id_usuario_pagante = request.data.get('id_usuario_pagante', '')
+    username = request.data.get('username', '')
+    quantia = request.data.get('quantia', '')
 
     user_pag = User.objects.get(pk=id_usuario_pagante)
     user_rec = User.objects.get(username=username)
@@ -245,10 +235,11 @@ def pagamento(request):
         moeda_rec.save()
         moeda_pag.save()
         message = 'Pagamento efetuado com sucesso.'
-        return Response({'success': True, 'message':message, 'moeda': moeda_rec.quantia})
+        return Response({'success': True, 'message': message, 'moeda': moeda_rec.quantia})
     else:
         message = 'Não tem moedas suficiente.'
-        return Response({'success': False, 'message':message, 'moeda':moeda_rec.quantia})
+        return Response({'success': False, 'message': message, 'moeda': moeda_rec.quantia})
+
 
 @api_view(['POST'])
 def send_email(request):
@@ -269,34 +260,42 @@ def send_email(request):
     else:
         return Response({'success': False, 'message': 'Preencha todos os campos'})
 
+
 class UsuariosModelViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsuarioSerializer
     lookup_field = 'username'
 
+
 class MateriasModelViewSet(viewsets.ModelViewSet):
     queryset = Materia.objects.all()
     serializer_class = MateriaSerializer
 
+
 class SubtopicosListViewSet(generics.ListAPIView):
     queryset = Subtopico.objects.all()
     serializer_class = SubtopicoSerializer
+
     def get_queryset(self):
         id_materia = self.kwargs['materia']
         return Subtopico.objects.filter(materia=id_materia)
 
+
 class SubtopicosModelViewSet(viewsets.ModelViewSet):
     queryset = Subtopico.objects.all()
     serializer_class = SubtopicoSerializer
+
 
 class DuvidaModelViewSet(viewsets.ModelViewSet):
     queryset = Duvida.objects.all()
     serializer_class = DuvidaSerializer
     permission_classes = (IsOwnerOrReadOnly,)
 
+
 class MonitoriaModelViewSet(viewsets.ModelViewSet):
     queryset = Monitoria.objects.all()
     serializer_class = MonitoriaSerializer
+
 
 class MoedaListView(viewsets.ModelViewSet):
     queryset = Moeda.objects.all()

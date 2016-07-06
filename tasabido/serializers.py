@@ -7,30 +7,28 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
-
-class MateriaSerializer(serializers.ModelSerializer):
+class MonitoriaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Materia
+        model = Monitoria
         fields = '__all__'
-
-
-class SubtopicoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subtopico
-        fields = '__all__'
-
 
 class DuvidaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Duvida
         fields = '__all__'
 
-
-class MonitoriaSerializer(serializers.ModelSerializer):
+class SubtopicoSerializer(serializers.ModelSerializer):
+    duvidas = DuvidaSerializer(many=True)
+    monitorias = MonitoriaSerializer(many=True)
     class Meta:
-        model = Monitoria
+        model = Subtopico
         fields = '__all__'
 
+class MateriaSerializer(serializers.ModelSerializer):
+    subtopicos = SubtopicoSerializer(many=True)
+    class Meta:
+        model = Materia
+        fields = '__all__'
 
 class MoedaSerializer(serializers.ModelSerializer):
     class Meta:
