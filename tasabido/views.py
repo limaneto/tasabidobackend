@@ -235,10 +235,10 @@ def pagamento(request):
         moeda_rec.save()
         moeda_pag.save()
         message = 'Pagamento efetuado com sucesso.'
-        return Response({'success': True, 'message': message, 'moeda': moeda_rec.quantia})
+        return Response({'success': True, 'message': message, 'moeda': moeda_pag.quantia})
     else:
         message = 'Não tem moedas suficiente.'
-        return Response({'success': False, 'message': message, 'moeda': moeda_rec.quantia})
+        return Response({'success': False, 'message': message})
 
 
 @api_view(['POST'])
