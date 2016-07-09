@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from IPython.utils import generics
+import datetime
 
 from django.db import IntegrityError
 from django.http import HttpResponse
@@ -291,10 +292,16 @@ class DuvidaModelViewSet(viewsets.ModelViewSet):
     serializer_class = DuvidaSerializer
     permission_classes = (IsOwnerOrReadOnly,)
 
+    def get_queryset(self):
+        return Duvida.objects.filter(data_criacao__gt=datetime.date.today() - datetime.timedelta(days=7))
+
 
 class MonitoriaModelViewSet(viewsets.ModelViewSet):
     queryset = Monitoria.objects.all()
     serializer_class = MonitoriaSerializer
+
+    def get_queryset(self):
+        return Monitoria.objects.filter(data_criacao__gt=datetime.date.today() - datetime.timedelta(days=7))
 
 
 class MoedaListView(viewsets.ModelViewSet):

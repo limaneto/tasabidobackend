@@ -27,6 +27,7 @@ class Subtopico(models.Model):
 
 
 class Duvida(Commom):
+    data_criacao = models.DateTimeField('Data criacao', auto_now_add=True)
     data_duvida = models.TextField()
     username = models.CharField(max_length=100);
     subtopico = models.ForeignKey(Subtopico, related_name="duvidas", on_delete=models.CASCADE)
@@ -36,6 +37,7 @@ class Duvida(Commom):
 
 
 class Monitoria(Commom):
+    data_criacao = models.DateTimeField('Data criacao', auto_now_add=True)
     data_monitoria = models.DateTimeField('Data da monitoria', blank=True, null=True)
     dia = models.CharField(max_length=100);
     horario = models.CharField(max_length=100);
